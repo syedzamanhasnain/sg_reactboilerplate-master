@@ -1,5 +1,6 @@
 import Website from './layout/Website/Website';
 import Home, { loadHomeData } from 'views/Home';
+import Contacts from 'views/Contacts';
 import About from 'views/About';
 
 const appRoutes = [
@@ -16,6 +17,11 @@ const appRoutes = [
 				path: '/about',
 				exact: true,
 				component: About
+			},
+			{
+				path: '/contacts',
+				exact: true,
+				component: Contacts
 			}
 			/* Parameterized data */
 			/* {

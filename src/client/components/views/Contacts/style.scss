@@ -1,0 +1,13 @@
+@import '../../../assets/scss/_variables';
+
+.contact-wrapper {
+	
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: inherit;
+	padding-top:20px;
+	width: calc(100% - 20%);
+	margin: 0 auto;
+		}
+	

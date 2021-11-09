@@ -25,6 +25,11 @@ function Header() {
 								About
 							</NavLink>
 						</li>
+						<li>
+							<NavLink exact className="link" activeClassName="active" to="/contact">
+								Contact
+							</NavLink>
+						</li>
 					</ul>
 				</nav>
 			</div>
