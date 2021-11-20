@@ -1,22 +1,29 @@
-
 import React from "react";
 import { connect } from "react-redux";
+//import {useHistory} from 'react-router-dom';
 import { bindActionCreators } from "redux";
-import { getContacts } from "./action";
+import { Link } from "react-router-dom";
+import { getContacts, deleteContact } from "./action";
 import "./style.scss";
 
 class Contacts extends React.Component {
   constructor(props) {
     super(props);
-    /* 
-            //Only use if you want to render the component with SSR
-            loadHomeData();
-        */
+    this.deleteContact = this.deleteContact.bind(this);
   }
 
+  async deleteContact(id) {
+    console.log(`contact id=,${id}`);
+    await this.props.deleteContact(id);
+    this.props.getContacts();
+  }
+
+  editContact(id) {
+    console.log(`zaman,${id}`);
+    useHistory().push(`/contacts/edit/${id}`);
+  }
   componentDidMount() {
     this.props.getContacts();
-    //console.log(this.props.contacts[0]);
   }
 
   render() {
@@ -25,33 +32,50 @@ class Contacts extends React.Component {
         <table className="table table-striped">
           <thead>
             <tr>
-              <th>#</th>
-              <th>First</th>
-              <th>Last</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Email</th>
               <th>Phone No</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {this.props.contacts.map((el, index) => (
-              <tr key={index}>
-                <th>{el.id || 0}</th>
-                <td>{el.firstName || "-"}</td>
-                <td>{el.lastName || "-"}</td>
-                <td>{el.phone || "-"}</td>
-                <td>
-                  <button
-                    type="button"
-                    className="btn btn-outline-primary mx-2"
-                  >
-                    Edit
-                  </button>
-                  <button type="button" className="btn btn-outline-danger">
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {this.props &&
+              this.props.contacts &&
+              this.props.contacts.length > 0 &&
+              this.props.contacts.map((contacts, index) => (
+                <tr key={index}>
+                  <td>{contacts.firstName || "-"}</td>
+                  <td>{contacts.lastName || "-"}</td>
+                  <td>{contacts.email || "-"}</td>
+                  <td>{contacts.phone || "-"}</td>
+                  <td>
+                    <Link to={`/contacts/${contacts.id}`}>
+                      <button
+                        type="button"
+                        className="btn btn-outline-primary mx-2"
+                      >
+                        Edit
+                      </button>
+                    </Link>
+                    {/* <button
+                      type="button"
+                      className="btn btn-outline-primary mx-2"
+                      onClick={() => this.editContact(contacts.id)}
+                    >
+                      Edit
+                    </button> */}
+
+                    <button
+                      type="button"
+                      className="btn btn-outline-danger"
+                      onClick={() => this.deleteContact(contacts.id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>
@@ -65,13 +89,14 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getContacts: bindActionCreators(getContacts, dispatch),
+  deleteContact: bindActionCreators(deleteContact, dispatch),
 });
 
-function loadContactData({ store }) {
-  return Promise.all([
-    store.dispatch(getContacts()) /* store.dispatch(getWhatWeDoList()) */,
-  ]);
-}
-export { loadContactData };
+// function loadContactData({ store }) {
+//   return Promise.all([
+//     store.dispatch(getContacts()) /* store.dispatch(getWhatWeDoList()) */,
+//   ]);
+// }
+// export { loadContactData };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Contacts);
