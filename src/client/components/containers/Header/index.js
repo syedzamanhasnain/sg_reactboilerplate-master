@@ -20,14 +20,15 @@ function Header() {
 								Home
 							</NavLink>
 						</li>
-						<li>
-							<NavLink exact className="link" activeClassName="active" to="/about">
-								About
-							</NavLink>
-						</li>
+						
 						<li>
 							<NavLink exact className="link" activeClassName="active" to="/contacts">
 								Contact
+							</NavLink>
+						</li>
+						<li>
+							<NavLink exact className="link" activeClassName="active" to="contacts/add">
+								Add Contact
 							</NavLink>
 						</li>
 					</ul>
