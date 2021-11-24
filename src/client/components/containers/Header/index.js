@@ -27,7 +27,7 @@ function Header() {
 							</NavLink>
 						</li>
 						<li>
-							<NavLink exact className="link" activeClassName="active" to="contacts/add">
+							<NavLink exact className="link" activeClassName="active" to="/contacts/add">
 								Add Contact
 							</NavLink>
 						</li>

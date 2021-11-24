@@ -1,30 +1,39 @@
 import React,{useEffect,useState}  from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import {useHistory,useParams} from 'react-router-dom'
-import { getContact } from '../Contacts/action';
+import { connect,useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import {useHistory,useParams} from 'react-router-dom';
+import { getContact,editContact } from '../Contacts/action';
 import "./style.scss";
 
 
-const EditContact = () => {
-  let history=useHistory();
+const EditContact = (props) => {
+  let history = useHistory();
   let {id}=useParams();
+  let dispatch = useDispatch();
+  const [newContact, SetContact] = useState(props)
 
+   useEffect(() => {
+    dispatch(getContact(id));
+   console.log(props.contact.length);
+    //getContact(id);
+  
+   //console.log(props && props.contact>=0 && props.contact.firstName);
+    //console.log(props.contact.length>0 && props.contact.firstName);
 
-  useEffect(() => {
-    
-    getContact(id);
-    //console.log(props);
-  }, []);
+  }, [id]);
    // we will use async/await to fetch this data
 
   const formik = useFormik({
     initialValues: {
+      id:id,
       firstName: '',
       lastName: '',
       email: '',
       phone:'',
     },
+    enableReinitialize: true,
     validationSchema: Yup.object({
       firstName: Yup.string()
         .max(15, 'Must be 15 characters or less')
@@ -40,8 +49,9 @@ const EditContact = () => {
   
     onSubmit: values => {
       console.log(values);
-    
+      const userData=values;
      // addUserData(values);
+     dispatch(editContact(userData));
      
       //setTimeout( history.push("/contacts"), 3000);
       setTimeout(function(){  history.push("/contacts");}, 1000);
@@ -55,12 +65,14 @@ const EditContact = () => {
 //   }
   
   return (
+    
     <div className="card mx-auto card-width border-info" >
   <div className="card-header">
     <h4>Edit User</h4>
   </div>
   <div className="card-body">
   <form onSubmit={formik.handleSubmit}>
+    {/* <p>{props.contact}</p> */}
   <div className="form-group">
       <label htmlFor="firstName">First Name</label>
       <input
@@ -95,6 +107,7 @@ const EditContact = () => {
          <div>{formik.errors.lastName}</div>
        ) : null}
     </div>
+
   <div className="form-group">
     <label htmlFor="email">Email</label>
     <input
@@ -111,6 +124,7 @@ const EditContact = () => {
          <div>{formik.errors.email}</div>
        ) : null}
  </div>
+
  <div className="form-group">
     <label htmlFor="phone">Phone</label>
     <input
@@ -133,4 +147,13 @@ const EditContact = () => {
 </div>
   );
 };
-export default EditContact;
+
+const mapStateToProps = (state) => {
+  // console.log(state);
+  return { contact: state.contactsReducer.contact};
+}
+const mapDispatchToProps = (dispatch) => ({
+  getContact: bindActionCreators(getContact, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditContact);

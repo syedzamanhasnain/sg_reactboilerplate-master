@@ -1,5 +1,6 @@
 const initialState = {
   contacts: [],
+  contact:[],
 };
 
 const contactsReducer = (state = initialState, action) => {
@@ -13,7 +14,7 @@ const contactsReducer = (state = initialState, action) => {
       case "GET_SINGLE_CONTACT_DATA":
         state = {
           ...state,
-          contacts: action.payload,
+          contact: action.payload,
         };
         break;
     case "ADD_CONTACT_DATA":
@@ -22,6 +23,13 @@ const contactsReducer = (state = initialState, action) => {
         contacts: action.payload,
       };
       break;
+      case "EDIT_CONTACT_DATA":
+      state = {
+        ...state,
+        contacts: action.payload,
+      };
+      break;
+      
     case "DELETE_CONTACT_DATA":
       state = {
         ...state,

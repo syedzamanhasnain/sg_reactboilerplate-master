@@ -1,3 +1,4 @@
+import { data } from "jquery";
 import HTTP from "utils/http.service";
 
 export const getContacts = () => {
@@ -38,6 +39,21 @@ export const addContact = (userData) => {
     }).then(() => {
       dispatch({
         type: "ADD_CONTACT_DATA",
+        payload:userData,
+      });
+    });
+  };
+};
+
+export const editContact = (userData) => {
+  return (dispatch) => {
+    return HTTP({
+      method: "PUT",
+      url: `/users/${Number(userData.id)}`,
+      data:userData,
+    }).then(() => {
+      dispatch({
+        type: "EDIT_CONTACT_DATA",
         payload:userData,
       });
     });

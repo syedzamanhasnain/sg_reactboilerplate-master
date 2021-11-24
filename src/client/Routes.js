@@ -23,19 +23,19 @@ const appRoutes = [
 			{
 				path: '/contacts',
 				exact: true,
-				component: Contacts
-			},
-			{
+				component: Contacts,
+			},{
 				path: '/contacts/add',
 				exact: true,
 				component: AddContact
-			}
-			,
+			},
 			{
 				path: "/contacts/:id",
 				exact: false,
 				component: EditContact
 			}
+
+			
 			/* Parameterized data */
 			/* {
             path: '/route/:slug',
