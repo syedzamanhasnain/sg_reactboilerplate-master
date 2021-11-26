@@ -12,9 +12,11 @@ function Header() {
 						src="/images/logo.png"
 						srcSet="/images/logo.png 1x, /images/logo@2x.png 2x"
 					/>
+								{/* <h6>swsjwnsjwnsjws</h6> */}
 				</div>
-				<nav>
-					<ul className="nav-list">
+				<div><h6 className="text-white p-0 m-0">Redux CRUD Application </h6></div>	
+				<nav>	
+					<ul className="nav-list">	
 						{/* <li>
 							<NavLink exact className="link" activeClassName="active" to="/">
 								Home

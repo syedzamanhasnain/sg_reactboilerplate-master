@@ -8,23 +8,27 @@ import { getContact, editContact } from "../Contacts/action";
 import "./style.scss";
 
 const EditContact = (props) => {
-
   let history = useHistory();
   let { id } = useParams();
   let dispatch = useDispatch();
-  let [contact,  setContact] = useState({ id:"",firstName: "",
-  lastName: "",
-  email: "",
-  phone:""
-});
+  let [contact, setContact] = useState({
+    id: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+  });
+  let [edit, setEdit] = useState(false);
 
   useEffect(() => {
     console.log(id);
     dispatch(getContact(id));
   }, []);
   useEffect(() => {
-   // console.log(props.contact);
-    setContact(props.contact);
+    // console.log(props.contact);
+    if (props.contact.length != 0) {
+      setContact(props.contact);  
+    }
   }, [props.contact]);
 
   const formik = useFormik({
@@ -44,19 +48,19 @@ const EditContact = (props) => {
         .max(20, "Must be 20 characters or less")
         .required("Required"),
       email: Yup.string().email("Invalid email address").required("Required"),
-      phone: Yup.string() 
-      .matches(/^[0-9]\d{9}$/,"Phone number is not valid")
-      .required("Required"),          
-    }), 
+      phone: Yup.string()
+        .matches(/^[0-9]\d{9}$/, "Phone number is not valid")
+        .required("Required"),
+    }),
 
     onSubmit: (values) => {
       console.log(values);
       const userData = values;
       dispatch(editContact(userData));
-
-      setTimeout(function () {
-        history.push("/");
-      }, 1000);
+      setEdit(true);
+      // setTimeout(function () {
+      //   history.push("/");
+      // }, 1000);
     },
   });
 
@@ -74,9 +78,13 @@ const EditContact = (props) => {
               name="firstName"
               type="text"
               placeholder="First Name"
-              className={formik.touched.firstName && formik.errors.firstName ?"form-control error":"form-control"}
+              className={
+                formik.touched.firstName && formik.errors.firstName
+                  ? "form-control error"
+                  : "form-control"
+              }
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}  
+              onBlur={formik.handleBlur}
               value={formik.values.firstName}
             />
             {formik.touched.firstName && formik.errors.firstName ? (
@@ -91,7 +99,11 @@ const EditContact = (props) => {
               name="lastName"
               type="text"
               placeholder="LastName"
-              className={formik.touched.lastName && formik.errors.lastName ?"form-control error":"form-control"}
+              className={
+                formik.touched.lastName && formik.errors.lastName
+                  ? "form-control error"
+                  : "form-control"
+              }
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.lastName}
@@ -108,7 +120,11 @@ const EditContact = (props) => {
               name="email"
               type="email"
               placeholder="Enter Email"
-              className={formik.touched.email && formik.errors.email ?"form-control error":"form-control"}
+              className={
+                formik.touched.email && formik.errors.email
+                  ? "form-control error"
+                  : "form-control"
+              }
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.email}
@@ -124,9 +140,12 @@ const EditContact = (props) => {
               id="phone"
               name="phone"
               type="tel"
-              pattern="[0-9]{10}"
               placeholder="Enter Phone Number"
-              className={formik.touched.phone && formik.errors.phone ?"form-control error":"form-control"}
+              className={
+                formik.touched.phone && formik.errors.phone
+                  ? "form-control error"
+                  : "form-control"
+              }
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.phone}
@@ -136,7 +155,7 @@ const EditContact = (props) => {
             ) : null}
           </div>
           <button type="submit" className="btn btn-primary btn-block">
-            Edit Contact
+            {edit ? "Editing..." : "Edit Contact"}
           </button>
         </form>
       </div>
