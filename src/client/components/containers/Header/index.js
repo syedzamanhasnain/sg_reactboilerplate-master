@@ -15,19 +15,19 @@ function Header() {
 				</div>
 				<nav>
 					<ul className="nav-list">
-						<li>
+						{/* <li>
 							<NavLink exact className="link" activeClassName="active" to="/">
 								Home
 							</NavLink>
-						</li>
+						</li> */}
 						
 						<li>
-							<NavLink exact className="link" activeClassName="active" to="/contacts">
+							<NavLink exact className="link" activeClassName="active" to="/">
 								Contact
 							</NavLink>
 						</li>
 						<li>
-							<NavLink exact className="link" activeClassName="active" to="/contacts/add">
+							<NavLink exact className="link" activeClassName="active" to="/add">
 								Add Contact
 							</NavLink>
 						</li>

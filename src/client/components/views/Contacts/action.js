@@ -1,11 +1,11 @@
-import { data } from "jquery";
+
 import HTTP from "utils/http.service";
 
 export const getContacts = () => {
   return (dispatch) => {
     return HTTP({
       method: "GET",
-      url: "/users",
+      url: "/contacts",
     }).then((res) => {
       dispatch({
         type: "GET_CONTACT_DATA",
@@ -19,7 +19,7 @@ export const getContact = (id) => {
   return (dispatch) => {
     return HTTP({
       method: "GET",
-      url: `/users/${id}`,
+      url: `/contacts/${id}`,
     }).then((res) => {
       dispatch({
         type: "GET_SINGLE_CONTACT_DATA",
@@ -34,7 +34,7 @@ export const addContact = (userData) => {
   return (dispatch) => {
     return HTTP({
       method: "POST",
-      url: "/users",
+      url: "/contacts",
       data:userData,
     }).then(() => {
       dispatch({
@@ -49,7 +49,7 @@ export const editContact = (userData) => {
   return (dispatch) => {
     return HTTP({
       method: "PUT",
-      url: `/users/${Number(userData.id)}`,
+      url: `/contacts/${Number(userData.id)}`,
       data:userData,
     }).then(() => {
       dispatch({
@@ -65,7 +65,7 @@ export const deleteContact = (id) => {
   return (dispatch) => {
     return HTTP({
       method: "DELETE",
-      url: `/users/${id}`,
+      url: `/contacts/${id}`,
     }).then((res) => {
       dispatch({
         type: "DELETE_CONTACT_DATA",

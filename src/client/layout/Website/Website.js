@@ -22,7 +22,7 @@ class WebsiteLayout extends React.Component {
 				<Header />
 				{renderRoutes(appRoutes[0].routes)}
 				<Footer />
-			</div>
+			</div>	
 		);
 	}
 

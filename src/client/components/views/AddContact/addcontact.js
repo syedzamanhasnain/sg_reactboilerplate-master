@@ -26,9 +26,9 @@ const AddContact = () => {
         .max(20, 'Must be 20 characters or less')
         .required('Required'),
       email: Yup.string().email('Invalid email address').required('Required'),
-      phone:Yup.number(),
-    //   .max(10,'Must be 10 digits')
-    //   .required(),
+      phone:Yup.string()
+      .matches(/^[0-9]\d{9}$/,"Phone number is not valid")
+     .required("Required"),
     }),
   
     onSubmit: values => {
@@ -38,7 +38,7 @@ const AddContact = () => {
      // addUserData(values);
      
       //setTimeout( history.push("/contacts"), 3000);
-      setTimeout(function(){  history.push("/contacts");}, 1000);
+      setTimeout(function(){  history.push("/");}, 1000);
     },
   });
 
@@ -51,7 +51,7 @@ const AddContact = () => {
   return (
     <div className="card mx-auto card-width border-info" >
   <div className="card-header">
-    <h4>Add User</h4>
+    <h4>Add Contact</h4>
   </div>
   <div className="card-body">
   <form onSubmit={formik.handleSubmit}>
@@ -62,13 +62,13 @@ const AddContact = () => {
          name="firstName"
          type="text"
          placeholder="First Name"
-         className="form-control"
+         className={formik.touched.firstName && formik.errors.firstName ?"form-control error":"form-control"}
          onChange={formik.handleChange}
          onBlur={formik.handleBlur}
          value={formik.values.firstName}
        />
        {formik.touched.firstName && formik.errors.firstName ? (
-         <div>{formik.errors.firstName}</div>
+         <div className="text-danger">{formik.errors.firstName}</div>
        ) : null}
       
     </div>
@@ -80,13 +80,13 @@ const AddContact = () => {
          name="lastName"
          type="text"
          placeholder="LastName"
-         className="form-control"
+         className={formik.touched.lastName && formik.errors.lastName ?"form-control error":"form-control"}
          onChange={formik.handleChange}
          onBlur={formik.handleBlur}
          value={formik.values.lastName}
        />
        {formik.touched.lastName && formik.errors.lastName ? (
-         <div>{formik.errors.lastName}</div>
+         <div className="text-danger">  {formik.errors.lastName}</div>
        ) : null}
     </div>
   <div className="form-group">
@@ -96,13 +96,13 @@ const AddContact = () => {
          name="email"
          type="email"
          placeholder="Enter Email"
-         className="form-control"
+         className={formik.touched.email && formik.errors.email ?"form-control error":"form-control"}
          onChange={formik.handleChange}
          onBlur={formik.handleBlur}
          value={formik.values.email}
        />
        {formik.touched.email && formik.errors.email ? (
-         <div>{formik.errors.email}</div>
+         <div className="text-danger"> {formik.errors.email}</div>
        ) : null}
  </div>
  <div className="form-group">
@@ -110,18 +110,19 @@ const AddContact = () => {
     <input
          id="phone"
          name="phone"
-         type="number"
+         type="tel"
+         pattern="[0-9]{10}"
          placeholder="Enter Phone Number"
-         className="form-control"
+         className={formik.touched.phone && formik.errors.phone ?"form-control error":"form-control"}
          onChange={formik.handleChange}
          onBlur={formik.handleBlur}
          value={formik.values.phone}
        />
        {formik.touched.phone && formik.errors.phone ? (
-         <div>{formik.errors.phone}</div>
+         <div className="text-danger">{formik.errors.phone}</div>
        ) : null}
  </div>
- <button type="submit" className="btn btn-primary btn-block">Add User</button>
+ <button type="submit" className="btn btn-primary btn-block">Add Contact</button>
  </form>
   </div>
 </div>

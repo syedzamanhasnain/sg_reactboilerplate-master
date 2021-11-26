@@ -12,25 +12,21 @@ const appRoutes = [
 			{
 				path: '/',
 				exact: true,
-				component: Home
+				component: Contacts
 				// loadData: loadHomeData
 			},
 			{
 				path: '/about',
 				exact: true,
 				component: About
-			},
-			{
-				path: '/contacts',
-				exact: true,
-				component: Contacts,
-			},{
-				path: '/contacts/add',
+			}
+			,{
+				path: '/add',
 				exact: true,
 				component: AddContact
 			},
 			{
-				path: "/contacts/:id",
+				path: "/edit/:id",
 				exact: false,
 				component: EditContact
 			}

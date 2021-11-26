@@ -20,7 +20,7 @@ class Contacts extends React.Component {
 
   editContact(id) {
     console.log(`zaman,${id}`);
-    useHistory().push(`/contacts/edit/${id}`);
+    useHistory().push(`/${id}`);
   }
   componentDidMount() {
     this.props.getContacts();
@@ -50,7 +50,7 @@ class Contacts extends React.Component {
                   <td>{contacts.email || "-"}</td>
                   <td>{contacts.phone || "-"}</td>
                   <td>
-                    <Link to={`/contacts/${contacts.id}`}>
+                    <Link to={`/edit/${contacts.id}`}>
                       <button
                         type="button"
                         className="btn btn-outline-primary mx-2"
