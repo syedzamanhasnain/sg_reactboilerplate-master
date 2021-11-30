@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { addContact } from "../Contacts/action";
@@ -14,26 +14,60 @@ const AddContact = () => {
     email: "",
     phone: "",
   });
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({
+    firstNameErr: "",
+    lastNameErr: "",
+    emailErr: "",
+    phoneErr: "",
+  });
+  const [isValid, setIsValid] = useState(false);
+
+  useEffect(() => {
+    if (isValid === true) {
+      console.log(isValid);
+      dispatch(addContact(formData));
+      setAdd(true);
+
+      setTimeout(function () {
+        history.push("/");
+      }, 1000);
+    }
+  }, [isValid]);
 
   function validate(values) {
-    let errors = {};
+    let errors = {
+      firstNameErr: "",
+      lastNameErr: "",
+      emailErr: "",
+      phoneErr: "",
+    };
 
     if (!values.firstName.trim()) {
-      errors.firstName = "Required";
+      errors.firstNameErr = "Required";
     }
     if (!values.lastName.trim()) {
-      errors.lastName = "Required";
+      errors.lastNameErr = "Required";
     }
     if (!values.email) {
-      errors.email = "Required";
-    } else if (!/\S+@\S+\.\S+/.test(values.email)) {
-      errors.email = "Email address is invalid";
+      errors.emailErr = "Required";
+      setIsValid(false);
+    } else if (!values.email.match(/\S+@\S+\.\S+/)) {
+      errors.emailErr = "Email address is invalid";
     }
     if (!values.phone.trim()) {
-      errors.phone = "Required";
+      errors.phoneErr = "Required";
+      setIsValid(false);
+    } else if (!values.phone.match(/^[0-9]\d{9}$/)) {
+      errors.phoneErr = "phone no is invalid";
     }
-
+    if (
+      errors.firstNameErr === "" &&
+      errors.lastNameErr === "" &&
+      errors.emailErr === "" &&
+      errors.phoneErr === ""
+    ) {
+      setIsValid(true);
+    }
     return errors;
   }
 
@@ -68,10 +102,15 @@ const AddContact = () => {
               type="text"
               placeholder="First Name"
               className="form-control"
+              className={
+                errors.firstNameErr ? "form-control error" : "form-control"
+              }
               value={FormData.firstName}
               onChange={handleChange}
             />
-            {errors.firstName && <p>{errors.firstName}</p>}
+            {errors.firstNameErr ? (
+              <div className="text-danger">{errors.firstNameErr}</div>
+            ) : null}
           </div>
           <div className="form-group">
             <label htmlFor="inputPassword4">Last Name</label>
@@ -81,24 +120,32 @@ const AddContact = () => {
               name="lastName"
               type="text"
               placeholder="LastName"
-              className="form-control"
+              className={
+                errors.lastNameErr ? "form-control error" : "form-control"
+              }
               value={FormData.lastName}
               onChange={handleChange}
             />
-            {errors.lastName && <p>{errors.lastName}</p>}
+            {errors.lastNameErr ? (
+              <div className="text-danger">{errors.lastNameErr}</div>
+            ) : null}
           </div>
           <div className="form-group">
             <label htmlFor="email">Email</label>
             <input
               id="email"
               name="email"
-              type="email"
+              type="text"
               placeholder="Enter Email"
-              className="form-control"
+              className={
+                errors.emailErr ? "form-control error" : "form-control"
+              }
               value={FormData.email}
               onChange={handleChange}
             />
-            {errors.email && <p>{errors.email}</p>}
+            {errors.emailErr ? (
+              <div className="text-danger">{errors.emailErr}</div>
+            ) : null}
           </div>
           <div className="form-group">
             <label htmlFor="phone">Phone</label>
@@ -106,13 +153,16 @@ const AddContact = () => {
               id="phone"
               name="phone"
               type="tel"
-              pattern="[0-9]{10}"
               placeholder="Enter Phone Number"
-              className="form-control"
+              className={
+                errors.phoneErr ? "form-control error" : "form-control"
+              }
               value={formData.phone}
               onChange={handleChange}
             />
-            {errors.phone && <p>{errors.phone}</p>}
+            {errors.phoneErr ? (
+              <div className="text-danger">{errors.phoneErr}</div>
+            ) : null}
           </div>
           <button type="submit" className="btn btn-primary btn-block">
             {add ? "Adding..." : "Add Contact"}
