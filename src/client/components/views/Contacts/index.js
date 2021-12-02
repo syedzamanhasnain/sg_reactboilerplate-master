@@ -58,14 +58,6 @@ class Contacts extends React.Component {
                         Edit
                       </button>
                     </Link>
-                    {/* <button
-                      type="button"
-                      className="btn btn-outline-primary mx-2"
-                      onClick={() => this.editContact(contacts.id)}
-                    >
-                      Edit
-                    </button> */}
-
                     <button
                       type="button"
                       className="btn btn-outline-danger"
