@@ -50,13 +50,13 @@ const AddContact = () => {
     }
     if (!values.email) {
       errors.emailErr = "Required";
-      setIsValid(false);
+      
     } else if (!values.email.match(/\S+@\S+\.\S+/)) {
       errors.emailErr = "Email address is invalid";
     }
     if (!values.phone.trim()) {
       errors.phoneErr = "Required";
-      setIsValid(false);
+
     } else if (!values.phone.match(/^[0-9]\d{9}$/)) {
       errors.phoneErr = "phone no is invalid";
     }
@@ -78,6 +78,13 @@ const AddContact = () => {
       [e.target.name]: e.target.value,
     }));
   };
+
+  const handleBlur =(e)=>{
+    e.preventDefault();
+    console.log(formData);
+    setErrors(validate(formData));
+    console.log(errors);
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -105,8 +112,9 @@ const AddContact = () => {
               className={
                 errors.firstNameErr ? "form-control error" : "form-control"
               }
-              value={FormData.firstName}
+              value={formData.firstName}
               onChange={handleChange}
+              onBlur={handleBlur}
             />
             {errors.firstNameErr ? (
               <div className="text-danger">{errors.firstNameErr}</div>
@@ -123,8 +131,9 @@ const AddContact = () => {
               className={
                 errors.lastNameErr ? "form-control error" : "form-control"
               }
-              value={FormData.lastName}
+              value={formData.lastName}
               onChange={handleChange}
+              //onBlur={handleBlur}
             />
             {errors.lastNameErr ? (
               <div className="text-danger">{errors.lastNameErr}</div>
@@ -140,8 +149,9 @@ const AddContact = () => {
               className={
                 errors.emailErr ? "form-control error" : "form-control"
               }
-              value={FormData.email}
+              value={formData.email}
               onChange={handleChange}
+            
             />
             {errors.emailErr ? (
               <div className="text-danger">{errors.emailErr}</div>
@@ -159,6 +169,7 @@ const AddContact = () => {
               }
               value={formData.phone}
               onChange={handleChange}
+            
             />
             {errors.phoneErr ? (
               <div className="text-danger">{errors.phoneErr}</div>

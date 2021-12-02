@@ -58,9 +58,9 @@ const EditContact = (props) => {
       const userData = values;
       dispatch(editContact(userData));
       setEdit(true);
-      // setTimeout(function () {
-      //   history.push("/");
-      // }, 1000);
+      setTimeout(function () {
+        history.push("/");
+      }, 1000);
     },
   });
 
